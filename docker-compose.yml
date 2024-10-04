@@ -1,12 +1,13 @@
-version: "3.8"
-
+# docker composer for local development use
 services:
   wordpress:
     build:
-      context: . # Utiliza el Dockerfile desde el directorio actual
+      context: .
+      dockerfile: Dockerfile.dev # Utiliza el Dockerfile desde el directorio actual
     env_file:
       - .env
     ports:
+      - "80:80"
       - "443:443"
     environment:
       - DB_NAME=${WORDPRESS_DB_NAME}
@@ -15,3 +16,5 @@ services:
       - DB_HOST=${WORDPRESS_DB_HOST}
     volumes:
       - .:/var/www/html
+
+    network_mode: bridge

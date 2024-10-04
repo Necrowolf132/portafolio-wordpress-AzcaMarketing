@@ -1,6 +1,5 @@
 # Usa una imagen base de PHP o WordPress
 FROM wordpress:latest
-
 # Establece el directorio de trabajo
 WORKDIR /var/www/html
 
@@ -15,7 +14,12 @@ ENV WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
 ENV WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
 ENV WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
 ENV WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
-
+COPY  ./certs/azcamarketingportafolio.jeelidev.online.pem /etc/ssl/certs/azcamarketingportafolio.jeelidev.online.pem 
+COPY  ./certs/azcamarketingportafolio.jeelidev.online-key.pem /etc/ssl/private/azcamarketingportafolio.jeelidev.online-key.pem 
+COPY ./azcamarketingportafolio.conf /etc/apache2/sites-available/azcamarketingportafolio.conf
+RUN a2ensite azcamarketingportafolio.conf 
+RUN a2enmod ssl 
+RUN service apache2 restart
 # Exponer el puerto
 EXPOSE 443
 EXPOSE 80
