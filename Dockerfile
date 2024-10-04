@@ -5,7 +5,7 @@ FROM php:7.4-apache
 WORKDIR /var/www/html
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli && docker-php-ext-install pdo_mysql
 USER www-data
-COPY .html/ /var/www/html/
+COPY html/ /var/www/html/
 # Cargar las variables de entorno
 ARG WORDPRESS_DB_HOST
 ARG WORDPRESS_DB_USER
