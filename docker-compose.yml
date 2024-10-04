@@ -1,20 +1,33 @@
-# docker composer for local development use
 services:
-  wordpress:
+  webserver:
     build:
-      context: .
-      dockerfile: Dockerfile.dev # Utiliza el Dockerfile desde el directorio actual
-    env_file:
-      - .env
+      context: ./
+      dockerfile: Dockerfile.dev
+    restart: always
     ports:
-      - "80:80"
-      - "443:443"
+      - 8080:80
+      - 443:443
     environment:
-      - DB_NAME=${WORDPRESS_DB_NAME}
-      - DB_USER=${WORDPRESS_DB_USER}
-      - DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
-      - DB_HOST=${WORDPRESS_DB_HOST}
+      WORDPRESS_DB_HOST: myqldb:3306
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: sgkxOSxSKVXFDcbpMOYvamAFtPCSESsg
+      WORDPRESS_DB_NAME: railway
     volumes:
-      - .:/var/www/html
+      - ./html:/var/www/html
+      - ./certs/azcamarketingportafolio.jeelidev.online.pem:/etc/ssl/certs/azcamarketingportafolio.jeelidev.online.pem
+      - ./certs/azcamarketingportafolio.jeelidev.online-key.pem:/etc/ssl/private/azcamarketingportafolio.jeelidev.online-key.pem
 
-    network_mode: bridge
+  db:
+    container_name: myqldb
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: railway
+      MYSQL_ROOT_PASSWORD: sgkxOSxSKVXFDcbpMOYvamAFtPCSESsg
+    volumes:
+      - ./db:/var/lib/mysql
+      - ./backups/:/docker-entrypoint-initdb.d
+
+volumes:
+  html:
+  db:
