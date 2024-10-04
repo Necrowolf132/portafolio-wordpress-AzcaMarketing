@@ -10,7 +10,7 @@ services:
     environment:
       WORDPRESS_DB_HOST: myqldb:3306
       WORDPRESS_DB_USER: root
-      WORDPRESS_DB_PASSWORD: sgkxOSxSKVXFDcbpMOYvamAFtPCSESsg
+      WORDPRESS_DB_P: sgkxOSxSKVXFDcbpMOYvamAFtPCSESsg
       WORDPRESS_DB_NAME: railway
     volumes:
       - ./html:/var/www/html
