@@ -1,25 +1,8 @@
-# Usa una imagen base de PHP o WordPress
-FROM wordpress:latest
-# Establece el directorio de trabajo
-WORKDIR /var/www/html
-
-# Cargar las variables de entorno
-ARG WORDPRESS_DB_HOST
-ARG WORDPRESS_DB_USER
-ARG WORDPRESS_DB_PASSWORD
-ARG WORDPRESS_DB_NAME
-
-# Definir variables de entorno en el contenedor
-ENV WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
-ENV WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
-ENV WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
-ENV WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
-COPY  ./certs/azcamarketingportafolio.jeelidev.online.pem /etc/ssl/certs/azcamarketingportafolio.jeelidev.online.pem 
-COPY  ./certs/azcamarketingportafolio.jeelidev.online-key.pem /etc/ssl/private/azcamarketingportafolio.jeelidev.online-key.pem 
-COPY ./azcamarketingportafolio.conf /etc/apache2/sites-available/azcamarketingportafolio.conf
-RUN a2ensite azcamarketingportafolio.conf 
-RUN a2enmod ssl 
-RUN service apache2 restart
-# Exponer el puerto
+FROM php:7.4-apache
+RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli && docker-php-ext-install pdo_mysql
+RUN a2enmod rewrite && a2enmod ssl && a2enmod socache_shmcb
+RUN sed -i '/SSLCertificateFile.*snakeoil\.pem/c\SSLCertificateFile \/etc\/ssl\/certs\/azcamarketingportafolio.jeelidev.online.pem' /etc/apache2/sites-available/default-ssl.conf && sed -i '/SSLCertificateKeyFile.*snakeoil\.key/cSSLCertificateKeyFile /etc/ssl/private/azcamarketingportafolio.jeelidev.online-key.pem\' /etc/apache2/sites-available/default-ssl.conf
+RUN a2ensite default-ssl
+RUN apt-get update && apt-get upgrade -y
 EXPOSE 443
 EXPOSE 80
