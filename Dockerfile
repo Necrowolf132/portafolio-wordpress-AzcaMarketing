@@ -46,5 +46,5 @@ COPY set_ssh.sh /usr/local/bin/set_ssh.sh
 RUN chmod +x /usr/local/bin/set_ssh.sh
 
 # Exponer los puertos
-EXPOSE 80 443 22
+EXPOSE 80 443 2222
 ENTRYPOINT ["/usr/local/bin/set_ssh.sh"]
