@@ -3,7 +3,7 @@
 # Función para mostrar el uso del script
 # RAELWAY example -> ./mysql_backup_restore.sh --host junction.proxy.rlwy.net --port 47208 --user root --password sgkxOSxSKVXFDcbpMOYvamAFtPCSESsg --database railway --backup 
 show_usage() {
-    echo "Uso: $0 --host DB_HOST --port DB_PORT --user DB_USER --password DB_PASSWORD --database DB_NAME [--backup | --restore BACKUP_FILE]"
+    echo "Uso: $0  --host DB_HOST --port DB_PORT --user DB_USER --password DB_PASSWORD --database DB_NAME [--backup | --restore BACKUP_FILE]"
     echo
     echo "Ejemplos:"
     echo "  Para realizar una copia de seguridad (backup):"
