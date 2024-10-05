@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Theme functions and definitions.
  *
@@ -10,27 +11,33 @@
  * @package HelloElementorChild
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'HELLO_ELEMENTOR_CHILD_VERSION', '2.0.0' );
+define('HELLO_ELEMENTOR_CHILD_VERSION', '2.0.0');
 
 /**
  * Load child theme scripts & styles.
  *
  * @return void
  */
-function hello_elementor_child_scripts_styles() {
+function enqueue_tailwind_cdn()
+{
+	// Encola el CDN de Tailwind
+	wp_enqueue_script('tailwind-cdn', 'https://cdn.tailwindcss.com', [], null, false);
 
-	wp_enqueue_style(
-		'hello-elementor-child-style',
-		get_stylesheet_directory_uri() . '/style.css',
-		[
-			'hello-elementor-theme-style',
-		],
-		HELLO_ELEMENTOR_CHILD_VERSION
-	);
-
+	// Script de configuración para extender el tema de Tailwind
+	wp_add_inline_script('tailwind-cdn', '
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                clifford: "#da373d",
+              }
+            }
+          }
+        }
+    ');
 }
-add_action( 'wp_enqueue_scripts', 'hello_elementor_child_scripts_styles', 20 );
+add_action('wp_enqueue_scripts', 'enqueue_tailwind_cdn');
