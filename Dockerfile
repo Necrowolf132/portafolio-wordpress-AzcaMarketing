@@ -20,8 +20,8 @@ ENV WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
 ENV WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
 ENV WORDPRESS_DB_P=${WORDPRESS_DB_P}
 ENV WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY ./custom-php.ini "$PHP_INI_DIR/conf.d/"
+RUN mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
+COPY ./custom-php.ini /usr/local/etc/php/conf.d/
 # Exponer el puerto
 EXPOSE 443
 EXPOSE 80
