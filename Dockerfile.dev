@@ -5,6 +5,7 @@ RUN sed -i '/SSLCertificateFile.*snakeoil\.pem/c\SSLCertificateFile \/etc\/ssl\/
 RUN a2ensite default-ssl
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 RUN apt-get update && apt-get upgrade -y
-COPY ./php.ini-develop /usr/local/etc/php/php.ini
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+COPY ./custom-php.ini "$PHP_INI_DIR/conf.d/"
 EXPOSE 443
 EXPOSE 80
