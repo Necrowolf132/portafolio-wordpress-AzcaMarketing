@@ -42,20 +42,9 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 # Instalar OpenSSH Server
 RUN apt-get update && apt-get install -y openssh-server
 
-# Crear el directorio necesario para SSH
-RUN mkdir /var/run/sshd
-
-# Permitir acceso root por SSH y establecer la contraseña de root
-RUN echo "root:25448132" | chpasswd
-
-# Permitir inicio de sesión de root por SSH
-RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-
-# Permitir autenticación por contraseña
-RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+COPY set_ssh.sh /usr/local/bin/set_ssh.sh
+RUN chmod +x /usr/local/bin/set_ssh.sh
 
 # Exponer los puertos
 EXPOSE 80 443 22
-
-# Iniciar tanto Apache como el servicio SSH
-CMD ["bash", "-c", "service ssh start && apache2-foreground"]
+ENTRYPOINT ["/usr/local/bin/set_ssh.sh"]
