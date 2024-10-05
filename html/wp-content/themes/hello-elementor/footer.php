@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The template for displaying the footer.
  *
@@ -7,16 +8,16 @@
  * @package HelloElementor
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'footer' ) ) {
-	if ( hello_elementor_display_header_footer() ) {
-		if ( did_action( 'elementor/loaded' ) && hello_header_footer_experiment_active() ) {
-			get_template_part( 'template-parts/dynamic-footer' );
+if (! function_exists('elementor_theme_do_location') || ! elementor_theme_do_location('footer')) {
+	if (hello_elementor_display_header_footer()) {
+		if (did_action('elementor/loaded') && hello_header_footer_experiment_active()) {
+			get_template_part('template-parts/dynamic-footer');
 		} else {
-			get_template_part( 'template-parts/footer' );
+			get_template_part('template-parts/footer');
 		}
 	}
 }
@@ -26,4 +27,5 @@ if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_
 <h1>HOOOLA jese </h1>
 
 </body>
+
 </html>

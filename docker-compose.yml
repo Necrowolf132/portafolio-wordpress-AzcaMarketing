@@ -21,6 +21,8 @@ services:
     container_name: myqldb
     image: mysql:8.0
     restart: always
+    ports:
+      - 3306:3306
     environment:
       MYSQL_DATABASE: railway
       MYSQL_ROOT_PASSWORD: sgkxOSxSKVXFDcbpMOYvamAFtPCSESsg
