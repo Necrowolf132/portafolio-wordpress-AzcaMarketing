@@ -7,17 +7,15 @@ WORKDIR /var/www/html
 # Instalar las extensiones de PHP necesarias
 RUN docker-php-ext-install mysqli pdo_mysql
 
-# Habilitar módulos de Apache
-RUN a2enmod rewrite ssl socache_shmcb headers
+# Habilitar módulos de Apache, incluyendo remoteip y otros necesarios
+RUN a2enmod rewrite ssl socache_shmcb headers remoteip
 
 # Configurar encabezados para proxy inverso
 RUN echo 'RemoteIPHeader X-Forwarded-For' >> /etc/apache2/apache2.conf && \
     echo 'SetEnvIf X-Forwarded-Proto "https" HTTPS=on' >> /etc/apache2/apache2.conf
 
-# Copiar el contenido de la carpeta html local al contenedor
+# Copiar los archivos al contenedor
 COPY html/ /var/www/html/
-
-# Cambiar la propiedad de los archivos al usuario www-data
 RUN chown -R www-data:www-data /var/www/html
 
 # Copiar la configuración personalizada de PHP
@@ -41,8 +39,23 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 # Establecer las configuraciones de PHP para producción
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
-# Exponer los puertos
-EXPOSE 80 443
+# Instalar OpenSSH Server
+RUN apt-get update && apt-get install -y openssh-server
 
-# Comando por defecto para iniciar Apache
-CMD ["apache2-foreground"]
+# Crear el directorio necesario para SSH
+RUN mkdir /var/run/sshd
+
+# Permitir acceso root por SSH y establecer la contraseña de root
+RUN echo "root:25448132" | chpasswd
+
+# Permitir inicio de sesión de root por SSH
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+# Permitir autenticación por contraseña
+RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+# Exponer los puertos
+EXPOSE 80 443 22
+
+# Iniciar tanto Apache como el servicio SSH
+CMD ["bash", "-c", "service ssh start && apache2-foreground"]
