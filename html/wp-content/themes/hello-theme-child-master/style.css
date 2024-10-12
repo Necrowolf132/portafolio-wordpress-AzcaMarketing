@@ -17,3 +17,10 @@ Tags: flexible-header, custom-colors, custom-menu, custom-logo, editor-style, fe
 body {
   overflow-x: hidden;
 }
+.collapse .ekit-accordion--content {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+.active .elementskit-card-header a {
+  border-radius: 20px 20px 0px 0px !important;
+}

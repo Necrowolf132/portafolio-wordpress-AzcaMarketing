@@ -51,7 +51,7 @@ function enqueue_tailwind_cdn()
         }
     ');
 }
-add_action('wp_enqueue_scripts', 'enqueue_tailwind_cdn');
+//add_action('wp_enqueue_scripts', 'enqueue_tailwind_cdn');
 
 // Permitir la subida de archivos SVG en WordPress
 function allow_svg_upload($mimes)
