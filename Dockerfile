@@ -16,7 +16,7 @@ RUN echo 'RemoteIPHeader X-Forwarded-For' >> /etc/apache2/apache2.conf && \
 
 # Copiar los archivos al contenedor
 COPY html/ /var/www/html/
-RUN chown -R www-data:www-data /var/www/html
+#RUN chown -R www-data:www-data /var/www/html
 
 # Copiar la configuración personalizada de PHP
 COPY ./custom-php.ini "$PHP_INI_DIR/conf.d/"
@@ -34,7 +34,7 @@ ENV WORDPRESS_DB_P=${WORDPRESS_DB_P}
 ENV WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
 
 # Cambiar el usuario www-data a UID 1000 y grupo GID 1000
-RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+#RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
 # Establecer las configuraciones de PHP para producción
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
