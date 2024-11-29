@@ -25,7 +25,7 @@ USER www-data
 COPY html/ /var/www/html/
 USER root
 RUN chown -R www-data:www-data /var/www/html
-USER www-data
+
 
 # Copiar la configuración personalizada de PHP
 COPY ./custom-php.ini "$PHP_INI_DIR/conf.d/"
@@ -50,5 +50,6 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 
 # Exponer los puertos
+USER www-data
 EXPOSE 80 443 2222
 ENTRYPOINT ["/usr/local/bin/set_ssh.sh"]
