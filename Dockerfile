@@ -23,7 +23,9 @@ RUN chmod +x /usr/local/bin/set_ssh.sh
 # Copiar los archivos al contenedor
 USER www-data
 COPY html/ /var/www/html/
+USER root
 RUN chown -R www-data:www-data /var/www/html
+USER www-data
 
 # Copiar la configuración personalizada de PHP
 COPY ./custom-php.ini "$PHP_INI_DIR/conf.d/"
